@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450" role="img" aria-label="Travel image unavailable">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#dbeafe"/>
+      <stop offset="1" stop-color="#bae6fd"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#g)"/>
+  <circle cx="650" cy="120" r="48" fill="#fde68a"/>
+  <path d="M0 360 210 190l120 100 110-130 360 200v90H0Z" fill="#64748b" opacity=".75"/>
+  <path d="M0 390 180 260l120 70 110-90 390 180H0Z" fill="#334155" opacity=".75"/>
+  <text x="400" y="415" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#0f172a">Travel image unavailable</text>
+</svg>

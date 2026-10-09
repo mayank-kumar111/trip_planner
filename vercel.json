@@ -1,0 +1,20 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "next build",
+  "devCommand": "next dev",
+  "installCommand": "npm ci",
+  "functions": {
+    "app/api/**": {
+      "maxDuration": 60
+    },
+    "app/api/aimodel/route.tsx": {
+      "maxDuration": 60
+    },
+    "app/api/trip/enrich/route.ts": {
+      "maxDuration": 60
+    },
+    "app/api/trip/process-worker/route.ts": {
+      "maxDuration": 60
+    }
+  }
+}

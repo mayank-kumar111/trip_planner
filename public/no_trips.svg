@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 220" role="img" aria-labelledby="title desc">
+  <title id="title">No trips yet</title>
+  <desc id="desc">An empty travel suitcase with a location pin</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E8F6FB"/>
+      <stop offset="100%" stop-color="#F7FBFD"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="304" height="204" rx="28" fill="url(#bg)"/>
+  <circle cx="250" cy="62" r="30" fill="#D8F0F7"/>
+  <path d="M250 43c-9.4 0-17 7.6-17 17 0 13 17 30 17 30s17-17 17-30c0-9.4-7.6-17-17-17Zm0 22.5a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11Z" fill="#2196B8"/>
+  <rect x="58" y="82" width="146" height="92" rx="16" fill="#fff" stroke="#B9DCE7" stroke-width="3"/>
+  <path d="M101 82V69c0-8 6-14 14-14h32c8 0 14 6 14 14v13" fill="none" stroke="#2196B8" stroke-width="8" stroke-linecap="round"/>
+  <path d="M58 112h146" stroke="#B9DCE7" stroke-width="3"/>
+  <path d="M72 134h50M72 148h34" stroke="#7CBED1" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="177" cy="151" r="16" fill="#2196B8"/>
+  <path d="m171 151 4 4 8-9" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M88 193h92" stroke="#B9DCE7" stroke-width="6" stroke-linecap="round"/>
+</svg>
