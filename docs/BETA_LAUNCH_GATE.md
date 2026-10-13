@@ -1,9 +1,9 @@
 # Trip Planner — Controlled Beta Launch Gate
 
-**Repository:** `mayank-kumar111/trip_planner-master`  
+**Repository:** `mayank-kumar111/trip_planner`
 **Target:** Controlled beta only  
 **Current engineering baseline:** 80/100 (B+)  
-**Latest verified release candidate:** `9503d217bd224d1b0b51a1442f071cb4c0460877`  
+**Latest verified release:** `fc7c132`
 **Scale status:** Not scale-ready
 
 ## Executive summary
@@ -17,11 +17,11 @@ A green local build is not enough. A release is approved only when the code is h
 | Check | Status | Evidence |
 |---|---|---|
 | TypeScript typecheck | ✅ PASS | `npm run typecheck` passed |
-| Automated tests | ✅ PASS | **31/31 tests passing** |
+| Automated tests | ✅ PASS | **37/37 tests passing** |
 | Production build | ✅ PASS | **17/17 static pages generated** |
 | Dependency audit | ✅ PASS | `npm run audit` passed in latest verified local run |
 | CI quality gate | ✅ PASS | CI runs audit, typecheck, tests and build |
-| Exact release commit CI | ✅ PASS | GitHub Actions **CI #210** for `9503d217` succeeded |
+| Exact release commit CI | ✅ PASS | GitHub Actions **CI #9** for `fc7c132` succeeded |
 
 ## Gate B — Production/beta configuration
 
@@ -97,9 +97,9 @@ Two major scale milestones remain:
 
 | Item | Result | Evidence / owner action |
 |---|---|---|
-| Release commit | `9503d217` | Verified locally and by CI |
-| CI | ✅ PASS | CI #210 succeeded |
-| Local tests | ✅ PASS | 31/31 |
+| Release commit | `fc7c132` | Verified locally and by CI |
+| CI | ✅ PASS | CI #9 succeeded |
+| Local tests | ✅ PASS | 37/37 |
 | Local typecheck | ✅ PASS | Passed |
 | Local build | ✅ PASS | 17/17 pages |
 | Production config | Pending | Verify deployment platform |

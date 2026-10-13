@@ -31,13 +31,13 @@ npm run build
 
 ## Current verification snapshot
 
-At commit `9503d217bd224d1b0b51a1442f071cb4c0460877`:
+At commit `fc7c132`:
 
 - typecheck: PASS;
-- tests: **31/31 PASS**;
+- tests: **37/37 PASS**;
 - production build: PASS;
 - build output: 17/17 static pages generated;
-- CI run #210: PASS;
+- CI run #9: PASS;
 - npm audit: 0 high/critical vulnerabilities reported locally.
 
 ## Manual beta tests
