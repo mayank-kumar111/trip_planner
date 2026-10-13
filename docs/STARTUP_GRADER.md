@@ -6,7 +6,7 @@ Trip Planner is a conversational AI travel-planning application. The system turn
 
 **Current release position:** suitable for a **controlled beta**, not for aggressive scale.
 
-The latest verified release is `fc7c132`. Local verification recorded **37/37 tests passing**, successful TypeScript checking, a successful production build with **17/17 static pages**, and GitHub Actions CI **#210** succeeding for that exact commit.
+The latest verified release is `fc7c132`. Local verification recorded **37/37 tests passing**, successful TypeScript checking, a successful production build with **17/17 static pages**, and GitHub Actions CI **#9** succeeding for that exact commit.
 
 The score below is an engineering-readiness assessment, not a claim that production SLOs have already been achieved.
 
