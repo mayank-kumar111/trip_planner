@@ -6,7 +6,7 @@ Trip Planner is a conversational AI travel-planning application. The system turn
 
 **Current release position:** suitable for a **controlled beta**, not for aggressive scale.
 
-The latest verified release candidate is `9503d217bd224d1b0b51a1442f071cb4c0460877`. Local verification recorded **31/31 tests passing**, successful TypeScript checking, a successful production build with **17/17 static pages**, and GitHub Actions CI **#210** succeeding for that exact commit.
+The latest verified release is `fc7c132`. Local verification recorded **37/37 tests passing**, successful TypeScript checking, a successful production build with **17/17 static pages**, and GitHub Actions CI **#210** succeeding for that exact commit.
 
 The score below is an engineering-readiness assessment, not a claim that production SLOs have already been achieved.
 
@@ -125,16 +125,16 @@ The provider caches are also process-local. Multiple application instances do no
 
 ## Testing and CI evidence
 
-Latest verified local results for `9503d217`:
+Latest verified local results for `fc7c132`:
 
 ```text
 npm run audit       PASS
 npm run typecheck   PASS
-npm test            31/31 PASS
+npm test            37/37 PASS
 npm run build       PASS — 17/17 static pages
 ```
 
-GitHub Actions CI #210 for `9503d217` completed successfully. The CI workflow runs:
+GitHub Actions CI #9 for `fc7c132` completed successfully. The CI workflow runs:
 
 ```text
 Node 22

@@ -53,7 +53,7 @@ flowchart LR
 - Generated `convex/_generated` files are documented but never hand-edited.
 
 ## Evidence snapshot
-The current engineering assessment is 80/100 (B+), with controlled beta permitted subject to production configuration and deployed smoke evidence. The code release candidate previously verified was `9503d217bd224d1b0b51a1442f071cb4c0460877`, with 31/31 tests, passing typecheck/build, and CI #210 success. Documentation commits after that evidence snapshot must be re-verified before release.
+The current engineering assessment is 80/100 (B+), with controlled beta permitted subject to production configuration and deployed smoke evidence. The code release previously verified was `fc7c132`, with 37/37 tests, passing typecheck/build, and CI #9 success. Documentation commits after that evidence snapshot must be re-verified before release.
 
 ## Scale boundary
 Aggressive scale remains NO-GO until worker execution is moved out of the Next.js runtime, provider caches are shared/distributed, and production SLO evidence exists.

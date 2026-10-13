@@ -17,8 +17,8 @@ You need credentials/configuration for the integrations enabled by the project: 
 ## 2. Clone and enter the project
 
 ```bash
-git clone https://github.com/mayank-kumar111/trip_planner-master.git
-cd trip_planner-master
+git clone https://github.com/mayank-kumar111/trip_planner.git
+cd trip_planner
 ```
 
 ## 3. Install dependencies
