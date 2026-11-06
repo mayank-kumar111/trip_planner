@@ -13,7 +13,7 @@ function getConfig(){const apiKey=process.env.GEMINI_API_KEY;const model=resolve
 function getResponseText(data:GeminiGenerateResponse){return data.candidates?.[0]?.content?.parts?.map(p=>p.text??"").join("").trim()??"";}
 function getRetryAfterSeconds(response:Response,message:string){const h=response.headers.get("retry-after");const n=h?Number(h):NaN;if(Number.isFinite(n)&&n>=0)return Math.ceil(n);const m=message.match(/retry in\s+([0-9.]+)s/i);return m?Math.ceil(Number(m[1])):60;}
 
-export async function generateGeminiJson<T>({systemInstruction,messages,responseSchema,model:requestedModel,timeoutMs=45000}:{systemInstruction:string;messages:GeminiMessage[];responseSchema:JsonSchema;model?:string;timeoutMs?:number}):Promise<T>{
+export async function generateGeminiJson<T>({systemInstruction,messages,responseSchema,model:requestedModel,timeoutMs=25000}:{systemInstruction:string;messages:GeminiMessage[];responseSchema:JsonSchema;model?:string;timeoutMs?:number}):Promise<T>{
  const {apiKey,model:configuredModel}=getConfig();const model=resolveGeminiModel(requestedModel||configuredModel);const contents=messages.filter(m=>m.content.trim()).map(m=>({role:m.role==="assistant"?"model":"user",parts:[{text:m.content}]}));
  if(!contents.length)throw new GeminiApiError("At least one message is required",400);
  const url=`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`;
