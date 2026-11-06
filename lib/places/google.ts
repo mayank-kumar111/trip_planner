@@ -7,6 +7,7 @@ import {
 } from "./matching";
 
 const GOOGLE_PLACES_URL = "https://places.googleapis.com/v1/places:searchText";
+const GOOGLE_PLACES_LEGACY_URL = "https://maps.googleapis.com/maps/api/place/textsearch/json";
 const GOOGLE_PLACES_FORBIDDEN_TTL_MS = 10 * 60 * 1000;
 let googlePlacesForbiddenUntil = 0;
 let googlePlacesForbiddenLogged = false;
@@ -58,6 +59,58 @@ function mapPlace(place: Record<string, unknown>): GooglePlaceMatch {
   };
 }
 
+
+async function searchGooglePlaceLegacy(input: PlaceSearchInput, apiKey: string): Promise<GooglePlaceMatch | null> {
+  try {
+    const response = await axios.get(GOOGLE_PLACES_LEGACY_URL, {
+      params: {
+        query: buildTextQuery(input),
+        key: apiKey,
+      },
+      timeout: 10000,
+    });
+
+    const status = typeof response.data?.status === "string" ? response.data.status : "UNKNOWN";
+    if (status !== "OK" && status !== "ZERO_RESULTS") {
+      console.warn("Google Places legacy fallback failed", {
+        status,
+        message: response.data?.error_message ?? null,
+      });
+      return null;
+    }
+
+    const results = Array.isArray(response.data?.results) ? response.data.results : [];
+    const candidates: GooglePlaceMatch[] = results.map((place: Record<string, unknown>) => {
+      const geometry =
+        place.geometry && typeof place.geometry === "object" && !Array.isArray(place.geometry)
+          ? (place.geometry as Record<string, unknown>)
+          : {};
+      const location =
+        geometry.location && typeof geometry.location === "object" && !Array.isArray(geometry.location)
+          ? (geometry.location as Record<string, unknown>)
+          : {};
+
+      return {
+        placeId: typeof place.place_id === "string" ? place.place_id : null,
+        displayName: typeof place.name === "string" ? place.name : null,
+        formattedAddress: typeof place.formatted_address === "string" ? place.formatted_address : null,
+        latitude: typeof location.lat === "number" ? location.lat : null,
+        longitude: typeof location.lng === "number" ? location.lng : null,
+        rating: typeof place.rating === "number" ? place.rating : null,
+        photoName: null,
+      };
+    });
+
+    return selectBestPlaceCandidate(input, candidates);
+  } catch (error) {
+    console.warn("Google Places legacy fallback request failed", {
+      status: axios.isAxiosError(error) ? error.response?.status ?? null : null,
+      message: error instanceof Error ? error.message : String(error),
+    });
+    return null;
+  }
+}
+
 export async function searchGooglePlace(
   searchInput: string | PlaceSearchInput,
 ): Promise<GooglePlaceMatch | null> {
@@ -92,6 +145,18 @@ export async function searchGooglePlace(
           : null;
 
       if (status === 403) {
+        const legacyResult = await searchGooglePlaceLegacy(input, apiKey);
+        if (legacyResult) {
+          if (!googlePlacesForbiddenLogged) {
+            googlePlacesForbiddenLogged = true;
+            console.warn("Google Places (New) returned 403; using legacy Text Search fallback for this process", {
+              status,
+              message: providerMessage ?? error.message,
+            });
+          }
+          return legacyResult;
+        }
+
         googlePlacesForbiddenUntil = Date.now() + GOOGLE_PLACES_FORBIDDEN_TTL_MS;
         if (!googlePlacesForbiddenLogged) {
           googlePlacesForbiddenLogged = true;
