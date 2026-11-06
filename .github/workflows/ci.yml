@@ -18,7 +18,8 @@ concurrency:
 
 jobs:
   quality:
-    runs-on: ubuntu-latest
+    # Pin the GitHub-hosted runner image to avoid ubuntu-latest image rollovers affecting the quality gate.
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
 
     steps:
