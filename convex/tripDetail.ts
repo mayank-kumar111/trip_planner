@@ -37,6 +37,28 @@ async function getAuthenticatedUserId(ctx: QueryCtx | MutationCtx) {
     return (await getAuthenticatedUser(ctx))._id;
 }
 
+async function getAuthenticatedUserForRead(ctx: QueryCtx) {
+    const identity = await ctx.auth.getUserIdentity();
+    const clerkId = identity?.subject?.trim();
+    const email = identity?.email?.trim().toLowerCase();
+    if (!clerkId) return null;
+
+    const directUser = await ctx.db
+        .query("UserTable")
+        .withIndex("by_clerkId", (q) => q.eq("clerkId", clerkId))
+        .unique();
+    if (directUser) return directUser;
+
+    if (!email) return null;
+
+    const legacyUsers = await ctx.db
+        .query("UserTable")
+        .withIndex("by_email", (q) => q.eq("email", email))
+        .collect();
+    const legacyMatches = legacyUsers.filter((candidate) => !candidate.clerkId);
+    return legacyMatches.length === 1 ? legacyMatches[0] : null;
+}
+
 async function getOwnedTrip(ctx: QueryCtx | MutationCtx, tripId: string) {
     const authenticatedUserId = await getAuthenticatedUserId(ctx);
     const trip = await ctx.db.query("TripDetailTable").withIndex("by_uid_tripId", (q) => q.eq("uid", authenticatedUserId).eq("tripId", tripId)).unique();
@@ -45,7 +67,13 @@ async function getOwnedTrip(ctx: QueryCtx | MutationCtx, tripId: string) {
 }
 
 async function getOwnedTripByTripId(ctx: QueryCtx, tripId: string) {
-    const user = await getAuthenticatedUser(ctx);
+    // Read queries must tolerate the short window where Clerk has authenticated the
+    // browser but the provider has not finished creating the UserTable profile.
+    // Returning null here keeps a non-owned/missing trip on the safe "not found"
+    // path instead of surfacing a Convex query error to the client.
+    const user = await getAuthenticatedUserForRead(ctx);
+    if (!user) return null;
+
     const directTrip = await ctx.db.query("TripDetailTable").withIndex("by_uid_tripId", (q) => q.eq("uid", user._id).eq("tripId", tripId)).unique();
     if (directTrip) return directTrip;
     const candidate = await ctx.db.query("TripDetailTable").withIndex("by_tripId", (q) => q.eq("tripId", tripId)).first();
@@ -202,9 +230,13 @@ export const UpdateTripGenerationJobForWorker = mutation({
 });
 
 async function getVisibleGenerationJob(ctx: QueryCtx, tripId: string) {
-    const authenticatedUserId = await getAuthenticatedUserId(ctx);
+    // Match GetTripById: missing user-profile state is a safe read miss, not
+    // an authorization error that should crash the route.
+    const user = await getAuthenticatedUserForRead(ctx);
+    if (!user) return null;
+
     const job = await ctx.db.query("TripGenerationJobTable").withIndex("by_tripId", (q) => q.eq("tripId", tripId)).unique();
-    if (!job || job.uid !== authenticatedUserId) return null;
+    if (!job || job.uid !== user._id) return null;
     return job;
 }
 
