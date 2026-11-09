@@ -1,0 +1,18 @@
+name: Runner Smoke Test
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify runner execution
+        run: |
+          echo "GitHub Actions runner started successfully."
+          node --version
+          npm --version
